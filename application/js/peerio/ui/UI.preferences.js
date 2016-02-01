@@ -50,6 +50,7 @@ Peerio.UI.controller('preferences', function($scope) {
 		if (Peerio.UI.proxyURL !== undefined && Peerio.UI.proxyURL !== false) {
 			$scope.preferences.proxyValue = Peerio.UI.proxyURL;
 		} else if (Peerio.UI.proxyHTTP !== undefined && Peerio.UI.proxyHTTP !== false) {
+			$scope.preferences.proxyType = "HTTP";
 			$scope.preferences.proxyValue = Peerio.UI.proxyHTTP;
 		} else {
 			$scope.preferences.proxyValue = '';
