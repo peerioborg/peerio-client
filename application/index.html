@@ -1285,6 +1285,17 @@
             <select data-ng-model="preferences.language"
                     data-ng-options="option.value as option.name for option in preferences.languageOptions"
                     data-ng-change="preferences.updateLocaleCode(preferences.language)"></select>
+	    <br/>
+	    <h2 data-l10n-id="proxy"></h2>
+	    <select data-ng-model="preferences.proxyType"
+		    data-ng-options="option.value as option.name for option in preferences.proxyTypes"
+		    data-ng-change="preferences.resetProxySetting()"></select>
+	    <input type="text"
+		    mexlength="128"
+		    data-ng-value="preferences.proxyValue" />
+	    <input type='button'
+		    data-ng-click="preferences.applyProxy()"
+		    data-utip-l10n="applyProxy"/>
             <hr/>
             <h2 data-l10n-id="notifications"></h2>
             <input type="checkbox"
