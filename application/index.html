@@ -96,11 +96,25 @@
             <span class="loginFormOr" data-l10n-id="or"></span>
         </form>
         <button class="loginFormSignup" data-ng-click="login.showSignupForm()" data-l10n-id="signup"></button>
-
+<!--
         <h2 data-l10n-id="language" class="login-locale-title"></h2>
         <select data-ng-model="selectedLocale" class="login-locale-select"
                 data-ng-options="option.value as option.name for option in languageOptions"
                 data-ng-change="changeLocale()"></select>
+--!>
+	<h2 data-l10n-id="proxy" class="login-proxy-title"></h2>
+	<form data-ng-submit="applyProxy()">
+	    <select data-ng-model="proxyType" class="login-proxy-select"
+		data-ng-options="option.name as option.name for option in proxyTypes"
+		data-ng-change="resetProxySetting()"></select>
+	    <input type="text"
+		mexlength="128"
+		data-ng-model="proxyValue"
+		data-ng-value="proxyValue" />
+	    <button type='submit'>
+		<span data-ng-show="true" data-l10n-id="applyProxy"></span>
+	    </button>
+	</form>
 
         <div class="loginFormFooter">
             <img src="img/peerioLogoWhite.png" alt=""/>
@@ -1285,17 +1299,6 @@
             <select data-ng-model="preferences.language"
                     data-ng-options="option.value as option.name for option in preferences.languageOptions"
                     data-ng-change="preferences.updateLocaleCode(preferences.language)"></select>
-	    <br/>
-	    <h2 data-l10n-id="proxy"></h2>
-	    <select data-ng-model="preferences.proxyType"
-		    data-ng-options="option.value as option.name for option in preferences.proxyTypes"
-		    data-ng-change="preferences.resetProxySetting()"></select>
-	    <input type="text"
-		    mexlength="128"
-		    data-ng-value="preferences.proxyValue" />
-	    <input type='button'
-		    data-ng-click="preferences.applyProxy()"
-		    data-utip-l10n="applyProxy"/>
             <hr/>
             <h2 data-l10n-id="notifications"></h2>
             <input type="checkbox"

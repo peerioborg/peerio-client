@@ -45,16 +45,6 @@ Peerio.UI.controller('preferences', function($scope) {
 	$scope.$on('preferencesOnLogin', function() {
 		$scope.preferences.language = Peerio.user.settings.localeCode
 		$scope.preferences.languageOptions = Peerio.UI.languageOptions;
-		$scope.preferences.proxyType = "PAC";
-		$scope.preferences.proxyTypes = [ "HTTP", "PAC" ];
-		if (Peerio.UI.proxyURL !== undefined && Peerio.UI.proxyURL !== false) {
-			$scope.preferences.proxyValue = Peerio.UI.proxyURL;
-		} else if (Peerio.UI.proxyHTTP !== undefined && Peerio.UI.proxyHTTP !== false) {
-			$scope.preferences.proxyType = "HTTP";
-			$scope.preferences.proxyValue = Peerio.UI.proxyHTTP;
-		} else {
-			$scope.preferences.proxyValue = '';
-		}
 //		if ($scope.preferences.language === 'fr') {
 	//		$scope.preferences.languageOptions.reverse()
 //		}
@@ -64,33 +54,6 @@ Peerio.UI.controller('preferences', function($scope) {
 	})
 	$scope.preferences.getLocaleCode = function() {
 		return Peerio.user.settings.localeCode
-	}
-	$scope.preferences.resetProxySetting = function() {
-		var defaultPouch = new PouchDB('_default')
-		defaultPouch.remove('proxyURL', function() {})
-		defaultPouch.remove('proxyHTTP', function() {})
-		Peerio.UI.proxyHTTP = false;
-		Peerio.UI.proxyURL = false;
-		$scope.preferences.proxyType = 'PAC';
-		$scope.preferences.proxyValue = '';
-		//FIXME: probably need to reset our form input from here as well
-	}
-	$scope.preferences.applyProxy = function() {
-		var type = $scope.preferences.proxyType,
-		    target = $scope.preferences.proxyValue,
-		    defaultPouch = new PouchDB('_default');
-
-		if (type === "HTTP" && typeof(target) === 'string') {
-			//FIXME: check I can fetch https://google.com
-			defaultPouch.put({ _id: 'proxyHTTP', proxyHTTP: target})
-			//FIXME: some reload magic that would re-open our socket
-		} else if (type === "PAC" && typeof(target) === 'string') {
-			//FIXME: check I can fetch https://google.com
-			defaultPouch.put({ _id: 'proxyURL', proxyURL: target})
-			//FIXME: some reload magic that would re-open our socket
-		} else {
-			//FIXME: an error message would be nice
-		}
 	}
 	$scope.preferences.updateLocaleCode = function() {
 		Peerio.UI.twoFactorAuth(function() {

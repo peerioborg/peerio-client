@@ -83,8 +83,59 @@ Peerio.UI.controller('loginForm', function($scope) {
 			$('span.loginShowPassphraseDisable').show()
 		}
 	}
+
 	$scope.selectedLocale = Peerio.UI.localeCode;
 	$scope.languageOptions = Peerio.UI.languageOptions;
+	$scope.proxyType = "PAC";
+	$scope.proxyTypes = [{ name: "HTTP" }, { name: "PAC" }];
+	if (Peerio.UI.proxyURL !== undefined && Peerio.UI.proxyURL !== false) {
+console.log('setting proxyURL from ' + Peerio.UI.proxyURL);
+		$scope.proxyValue = Peerio.UI.proxyURL;
+	} else if (Peerio.UI.proxyHTTP !== undefined && Peerio.UI.proxyHTTP !== false) {
+console.log('setting proxyHTTP from ' + Peerio.UI.proxyHTTP);
+		$scope.proxyType  = 'HTTP';
+		$scope.proxyValue = Peerio.UI.proxyHTTP;
+	} else {
+console.log('not setting proxy since');
+console.log(Peerio.UI.proxyURL);
+console.log(Peerio.UI.proxyHTTP);
+		$scope.proxyValue = '';
+	}
+	$scope.resetProxySetting = function() {
+		var defaultPouch = new PouchDB('_default')
+		defaultPouch.remove('proxyAddress', function() {})
+		Peerio.UI.proxyHTTP = false;
+		Peerio.UI.proxyURL = false;
+		$scope.proxyValue = '';
+	}
+	$scope.applyProxy = function() {
+		var type = $scope.proxyType,
+		    target = $scope.proxyValue,
+		    defaultPouch = new PouchDB('_default');
+
+console.log(type);
+console.log(target);
+		if (type === "HTTP" && typeof(target) === 'string') {
+			//FIXME: check I can fetch https://google.com
+console.log('http requested');
+			defaultPouch.remove('proxyAddress', function() {
+console.log('reset processed');
+				defaultPouch.put({ _id: 'proxyAddress', proxyHTTP: target}, function(){ console.log('put');});
+			});
+			//FIXME: some reload magic that would re-open our socket
+		} else if (type === "PAC" && typeof(target) === 'string') {
+console.log('pac requested');
+			//FIXME: check I can fetch https://google.com
+			defaultPouch.remove('proxyAddress', function() {
+console.log('reset processed');
+				defaultPouch.put({ _id: 'proxyAddress', proxyURL: target}, function(){ console.log('put');});
+			});
+			//FIXME: some reload magic that would re-open our socket
+		} else {
+console.log('wtfwtfwtf');
+			//FIXME: an error message would be nice
+		}
+	}
 	$scope.changeLocale = function(){
 		var defaultPouch = new PouchDB('_default')
 		defaultPouch.get('localeCode', function(err, data) {

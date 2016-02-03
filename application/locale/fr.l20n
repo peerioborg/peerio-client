@@ -328,3 +328,4 @@
     <addAddressSuggestionText "Ajouter des coordonnées permet de :<br><ul><li><strong>Recherche</strong> : vos contacts vous retrouveront plus facilement</li><li><strong>Notifications</strong> : notifications de nouveaux messages/contacts </li><li><strong>Assistance technique</strong> : notre équipe d'assistance aura plus d'options pour vous aider.</li></ul><br>Voulez-vous mettre à jour vos coordonnées ?">
     <proxy "Proxy">
     <applyProxy "Tester &amp; Appliquer">
+    <proxyAddress "http://X.Y.Z:4321/proxy.pac">

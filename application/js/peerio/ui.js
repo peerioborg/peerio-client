@@ -214,6 +214,16 @@ Peerio.UI = angular.module('PeerioUI', ['ngSanitize', 'cfp.hotkeys']);
   //
 
   window.onload = function () {
+    Peerio.storage.db.get('proxyAddress', function(err, data) {
+	if ((typeof(data) === 'object') && (hasProp(data, 'proxyHTTP')) &&
+	    (typeof(data.proxyHTTP) === 'string')) {
+console.log('setting UI.proxyHTTP to ' + data.proxyHTTP);
+	    Peerio.UI.proxyHTTP = data.proxyHTTP;
+	} else if ((typeof(data) === 'object') && (hasProp(data, 'proxyURL')) &&
+	    (typeof(data.proxyURL) === 'string')) {
+console.log('setting UI.proxyURL to ' + data.proxyURL);
+	    Peerio.UI.proxyURL = data.proxyURL;
+	}
     Peerio.storage.db.get('localeCode', function (err, data) {
       var language = ''
       if (
@@ -248,17 +258,6 @@ Peerio.UI = angular.module('PeerioUI', ['ngSanitize', 'cfp.hotkeys']);
       document.l10n.linkResource('locale/' + language + '.l20n')
       document.l10n.requestLocales(language)
     })
-    Peerio.storage.db.get('proxyHTTP', function(err, data) {
-	if ((typeof(data) === 'object') && (hasProp(data, 'proxyHTTP')) &&
-	    (typeof(data.proxyHTTP) === 'string')) {
-	    Peerio.UI.proxyHTTP = data.proxyHTTP;
-	}
-    })
-    Peerio.storage.db.get('proxyURL', function(err, data) {
-        if ((typeof(data) === 'object') && (hasProp(data, 'proxyURL')) &&
-	    (typeof(data.proxyURL) === 'string')) {
-	    Peerio.UI.proxyURL = data.proxyURL;
-	}
     })
     $('.loginScreen').show()
     $('div.mainTopSectionSelect [data-sectionLink=messages]').trigger('mousedown')
