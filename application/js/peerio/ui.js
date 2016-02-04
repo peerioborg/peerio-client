@@ -214,18 +214,8 @@ Peerio.UI = angular.module('PeerioUI', ['ngSanitize', 'cfp.hotkeys']);
   //
 
   window.onload = function () {
-    Peerio.storage.db.get('proxyAddress', function(err, data) {
-	if ((typeof(data) === 'object') && (hasProp(data, 'proxyHTTP')) &&
-	    (typeof(data.proxyHTTP) === 'string')) {
-console.log('setting UI.proxyHTTP to ' + data.proxyHTTP);
-	    Peerio.UI.proxyHTTP = data.proxyHTTP;
-	} else if ((typeof(data) === 'object') && (hasProp(data, 'proxyURL')) &&
-	    (typeof(data.proxyURL) === 'string')) {
-console.log('setting UI.proxyURL to ' + data.proxyURL);
-	    Peerio.UI.proxyURL = data.proxyURL;
-	}
     Peerio.storage.db.get('localeCode', function (err, data) {
-      var language = ''
+      var language = false
       if (
         (typeof(data) === 'object') &&
         (hasProp(data, 'localeCode')) &&
@@ -235,7 +225,8 @@ console.log('setting UI.proxyURL to ' + data.proxyURL);
         language = data.localeCode
       }
 
-      console.log('lang', data)
+      console.log('lang')
+      console.log(data)
       if ((typeof(language) !== 'string') || !/^((en)|(de)|(es)|(fr)|(it)|(ja)|(hu)|(nb\-NO)|(pt\-BR)|(ru)|(zh\-CN)|(tr)|(cs))$/.test(language)) {
         var navLang = navigator.language || navigator.userLanguage
         var langs = {'en': /en/, 'cs':/cs/, 'de':/de/, 'es':/es/, 'fr': /fr/, 'it':/it/, 'ja':/ja/, 'hu': /hu/, 'nb-NO': /nb\-NO/, 'pt-BR':/pt\-BR/, 'ru':/ru/, 'tr' : /tr/, 'zh-CN':/zh\-CN/};
@@ -250,6 +241,8 @@ console.log('setting UI.proxyURL to ' + data.proxyURL);
           }
         }
       }
+      console.log('fallback-lang')
+      console.log(language)
       Peerio.UI.localeCode = language;
       Peerio.user.settings.localeCode = language;
       document.l10n.ready(function () {
@@ -258,8 +251,27 @@ console.log('setting UI.proxyURL to ' + data.proxyURL);
       document.l10n.linkResource('locale/' + language + '.l20n')
       document.l10n.requestLocales(language)
     })
-    })
     $('.loginScreen').show()
+    Peerio.storage.db.get('proxyAddress', function(err, data) {
+	if ((typeof(data) === 'object') && (hasProp(data, 'proxyHTTP')) &&
+	    (typeof(data.proxyHTTP) === 'string')) {
+	    if ($('div.loginForm form [data-ng-model="proxyValue"]').attr('type') === 'text') {
+		$('div.loginForm form [data-ng-model="proxyValue"]').attr('placeholder', data.proxyHTTP);
+//		$('div.loginForm form [data-ng-model="proxyType"]').attr( set select's HTTP option as default )
+console.log('setting input content to ' + data.proxyHTTP);
+	    }
+console.log('setting UI.proxyHTTP to ' + data.proxyHTTP);
+	    Peerio.UI.proxyHTTP = data.proxyHTTP;
+	} else if ((typeof(data) === 'object') && (hasProp(data, 'proxyURL')) &&
+	    (typeof(data.proxyURL) === 'string')) {
+	    if ($('div.loginForm form [data-ng-model="proxyValue"]').attr('type') === 'text') {
+		$('div.loginForm form [data-ng-model="proxyValue"]').attr('placeholder', data.proxyURL);
+console.log('setting input content to ' + data.proxyURL);
+	    }
+console.log('setting UI.proxyURL to ' + data.proxyURL);
+	    Peerio.UI.proxyURL = data.proxyURL;
+	}
+    })
     $('div.mainTopSectionSelect [data-sectionLink=messages]').trigger('mousedown')
   }
 

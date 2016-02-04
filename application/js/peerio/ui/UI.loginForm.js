@@ -43,8 +43,7 @@ Peerio.UI.controller('loginForm', function($scope) {
 						Peerio.UI.userMenuPopulate()
 					})
 				})
-			}
-			else {
+			} else {
 				$scope.login.showLoading = false
 				$scope.$apply()
 				swal({
@@ -88,19 +87,6 @@ Peerio.UI.controller('loginForm', function($scope) {
 	$scope.languageOptions = Peerio.UI.languageOptions;
 	$scope.proxyType = "PAC";
 	$scope.proxyTypes = [{ name: "HTTP" }, { name: "PAC" }];
-	if (Peerio.UI.proxyURL !== undefined && Peerio.UI.proxyURL !== false) {
-console.log('setting proxyURL from ' + Peerio.UI.proxyURL);
-		$scope.proxyValue = Peerio.UI.proxyURL;
-	} else if (Peerio.UI.proxyHTTP !== undefined && Peerio.UI.proxyHTTP !== false) {
-console.log('setting proxyHTTP from ' + Peerio.UI.proxyHTTP);
-		$scope.proxyType  = 'HTTP';
-		$scope.proxyValue = Peerio.UI.proxyHTTP;
-	} else {
-console.log('not setting proxy since');
-console.log(Peerio.UI.proxyURL);
-console.log(Peerio.UI.proxyHTTP);
-		$scope.proxyValue = '';
-	}
 	$scope.resetProxySetting = function() {
 		var defaultPouch = new PouchDB('_default')
 		defaultPouch.remove('proxyAddress', function() {})
@@ -116,21 +102,43 @@ console.log(Peerio.UI.proxyHTTP);
 console.log(type);
 console.log(target);
 		if (type === "HTTP" && typeof(target) === 'string') {
-			//FIXME: check I can fetch https://google.com
+			//FIXME: check I can fetch https://app.peerio.com before applying
 console.log('http requested');
 			defaultPouch.remove('proxyAddress', function() {
 console.log('reset processed');
-				defaultPouch.put({ _id: 'proxyAddress', proxyHTTP: target}, function(){ console.log('put');});
+				defaultPouch.put({ _id: 'proxyAddress', proxyHTTP: target}, function() {
+console.log('new value set');
+					swal({
+						title: document.l10n.getEntitySync('confirmed').value,
+						text: document.l10n.getEntitySync('confirmedLanguageText').value,
+						type: 'success',
+						confirmButtonText: document.l10n.getEntitySync('OK').value
+					}, function () {
+						if(chrome){
+							chrome.runtime.reload();
+						} else document.location.reload(true);
+					});
+				});
 			});
-			//FIXME: some reload magic that would re-open our socket
 		} else if (type === "PAC" && typeof(target) === 'string') {
 console.log('pac requested');
-			//FIXME: check I can fetch https://google.com
+			//FIXME: check I can fetch https://app.peerio.com before applying
 			defaultPouch.remove('proxyAddress', function() {
 console.log('reset processed');
-				defaultPouch.put({ _id: 'proxyAddress', proxyURL: target}, function(){ console.log('put');});
+				defaultPouch.put({ _id: 'proxyAddress', proxyURL: target}, function() {
+console.log('new value set');
+					swal({
+						title: document.l10n.getEntitySync('confirmed').value,
+						text: document.l10n.getEntitySync('confirmedLanguageText').value,
+						type: 'success',
+						confirmButtonText: document.l10n.getEntitySync('OK').value
+					}, function () {
+						if(chrome){
+							chrome.runtime.reload();
+						} else document.location.reload(true);
+					});
+				});
 			});
-			//FIXME: some reload magic that would re-open our socket
 		} else {
 console.log('wtfwtfwtf');
 			//FIXME: an error message would be nice
