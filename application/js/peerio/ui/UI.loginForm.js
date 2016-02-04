@@ -85,28 +85,28 @@ Peerio.UI.controller('loginForm', function($scope) {
 
 	$scope.selectedLocale = Peerio.UI.localeCode;
 	$scope.languageOptions = Peerio.UI.languageOptions;
-	$scope.proxyType = "PAC";
-	$scope.proxyTypes = [{ name: "HTTP" }, { name: "PAC" }];
+	$scope.proxyType = "none";
+	$scope.proxyTypes = [{ name: "none" }, { name: "Environ" }, { name: "HTTP" }, { name: "PAC" }];
 	$scope.resetProxySetting = function() {
-		var defaultPouch = new PouchDB('_default')
-		defaultPouch.remove('proxyAddress', function() {})
-		Peerio.UI.proxyHTTP = false;
-		Peerio.UI.proxyURL = false;
-		$scope.proxyValue = '';
+		Peerio.storage.db.remove('proxyAddress', function(err) {
+if (err) { console.log(err) }
+else { console.log('proxyAddress should be gone') }
+			if ($('div.loginForm form [data-ng-model="proxyValue"]').attr('type') === 'text') {
+				$('div.loginForm form [data-ng-model="proxyValue"]').attr('placeholder', '');
+			}
+		})
 	}
 	$scope.applyProxy = function() {
 		var type = $scope.proxyType,
-		    target = $scope.proxyValue,
-		    defaultPouch = new PouchDB('_default');
+		    target = $scope.proxyValue;
 
 console.log(type);
 console.log(target);
 		if (type === "HTTP" && typeof(target) === 'string') {
 			//FIXME: check I can fetch https://app.peerio.com before applying
 console.log('http requested');
-			defaultPouch.remove('proxyAddress', function() {
-console.log('reset processed');
-				defaultPouch.put({ _id: 'proxyAddress', proxyHTTP: target}, function() {
+			Peerio.storage.db.remove('proxyAddress', function() {
+				Peerio.storage.db.put({ _id: 'proxyAddress', proxyHTTP: target}, function() {
 console.log('new value set');
 					swal({
 						title: document.l10n.getEntitySync('confirmed').value,
@@ -123,9 +123,8 @@ console.log('new value set');
 		} else if (type === "PAC" && typeof(target) === 'string') {
 console.log('pac requested');
 			//FIXME: check I can fetch https://app.peerio.com before applying
-			defaultPouch.remove('proxyAddress', function() {
-console.log('reset processed');
-				defaultPouch.put({ _id: 'proxyAddress', proxyURL: target}, function() {
+			Peerio.storage.db.remove('proxyAddress', function() {
+				Peerio.storage.db.put({ _id: 'proxyAddress', proxyURL: target}, function() {
 console.log('new value set');
 					swal({
 						title: document.l10n.getEntitySync('confirmed').value,
@@ -140,8 +139,19 @@ console.log('new value set');
 				});
 			});
 		} else {
-console.log('wtfwtfwtf');
-			//FIXME: an error message would be nice
+console.log('proxy reset');
+			Peerio.storage.db.remove('proxyAddress', function() {
+				swal({
+					title: document.l10n.getEntitySync('confirmed').value,
+					text: document.l10n.getEntitySync('confirmedLanguageText').value,
+					type: 'success',
+					confirmButtonText: document.l10n.getEntitySync('OK').value
+				}, function () {
+					if(chrome){
+						chrome.runtime.reload();
+					} else document.location.reload(true);
+				});
+			});
 		}
 	}
 	$scope.changeLocale = function(){
