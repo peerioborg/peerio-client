@@ -4,7 +4,8 @@ importScripts('../lib/socket.js')
 
 var mySocket = (function() {
 	var server = 'wss://app.peerio.com:443';
-
+// there's something to be done around here, or in `../lib/socket.js:lookup()`
+// looking at https://github.com/ymx/socket.io-proxy/blob/master/lib/main.js
 	return io.connect(server, { transports: ['websocket'] })
 }());
 
