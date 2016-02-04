@@ -4345,17 +4345,6 @@ function lookup(uri, opts) {
 
   var io;
 
-  if (initialized === false) {
-//check for PouchDB setting, if set to "none", don't do that
-    proxyInit();
-//check for PouchDB setting, if HTTP, feed proxyInit with the proper URL
-//FIXME: PAC support
-  }
-
-//FIXME: should I divert Manager or io.socket?! socket.io-client divers io.connect()
-//FIXME: maybe I should touch that one, and instead patch js/peerio/socketworker.js,
-//       which does have our io.connect(). initialized and tunnelServer should be
-//       public, then
   if (newConnection) {
     debug('ignoring socket cache for %s', source);
     io = Manager(source, opts);
@@ -4378,13 +4367,29 @@ function lookup(uri, opts) {
 exports.protocol = parser.protocol;
 
 /**
- * `proxyInit`.
+ *`initialize proxy if required
  *
  * @param {String} uri
  * @api public
  */
 
 exports.proxyInit = proxyInit;
+
+/**
+ * check wether proxy init is required
+ *
+ * @api public
+ */
+
+exports.proxyDivertTo = function() { return (tunnelServer !== false ? tunnelPort : false); }
+
+/**
+ * check wether proxy init is required
+ *
+ * @api public
+ */
+
+exports.proxyInitialized = function() { return initialized; }
 
 /**
  * `connect`.

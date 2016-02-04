@@ -3,10 +3,20 @@
 importScripts('../lib/socket.js')
 
 var mySocket = (function() {
-	var server = 'wss://app.peerio.com:443';
-// there's something to be done around here, or in `../lib/socket.js:lookup()`
-// looking at https://github.com/ymx/socket.io-proxy/blob/master/lib/main.js
-	return io.connect(server, { transports: ['websocket'] })
+	var server = 'app.peerio.com';
+
+	if (! io.proxyInitialized()) {
+//check for PouchDB setting, if set to "none", ensure http_proxy is not defined
+		io.proxyInit()
+//check for PouchDB setting, if HTTP, feed proxyInit with the proper URL
+//FIXME: PAC support
+	}
+	if (io.proxyDivertTo()) {
+//FIXME: make sure tunnelServer actually listens on 127.0.0.1
+		return io.connect('http://localhost:' + io.proxyDivertTo() + '/?protocol=wss&hostname=' + server + '&port=443' , { transports: ['websocket'] })
+	} else {
+		return io.connect('wss://' + server + ':443', { transports: ['websocket'] })
+	}
 }());
 
 onmessage = function(message) {
