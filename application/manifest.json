@@ -30,7 +30,6 @@
 			]
 		},
 		"notifications",
-		"proxy",
 		"storage",
 		"fileBrowserHandler",
 		"https://peerio.blob.core.windows.net/*"

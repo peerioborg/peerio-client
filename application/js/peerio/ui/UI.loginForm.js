@@ -115,6 +115,10 @@ console.log('new value set');
 						confirmButtonText: document.l10n.getEntitySync('OK').value
 					}, function () {
 						if (chrome) {
+/*
+ * https://code.google.com/p/chromium/issues/detail?id=172285
+ * http://stackoverflow.com/questions/25224627/isnt-there-a-way-to-use-chrome-proxy-in-chrome-packaged-apps
+ * would also need to add 'proxy' to premissions array (@manifest.json)
 							var proxyConfig = {};
 							if (0 === 0) {
 								proxyConfig = {
@@ -135,24 +139,17 @@ console.log('new value set');
 									}
 								};
 							}
-if ('undefined' !== typeof chrome.proxy) {
-console.log('applying proxy config');
-console.log(JSON.stringify(proxyConfig));
+							if ('undefined' !== typeof chrome.proxy) {
 								chrome.proxy.settings.set({value: proxyConfig, scope: 'regular',
-									function(config) {
-										console.log(JSON.stringify(config));
-									}});
-	//							chrome.runtime.reload();
-} else {
-console.log('has chrome yet no .proxy');
-}
-//FIXME: proxy settings should be fetched from Peerio.storage.db
-//FIXME: maybe some Promise magic to move io.connect in our
-//	chrome.proxy.settings.set callback
+									function(config) { chrome.runtime.reload(); }});
+							} else { console.log("can't access to chrome proxy configuration"); }
+*/
 //FIXME: handling auth-based proxies (user/pass & certificates!)
-						} else console.log('reloads'); /*document.location.reload(true);*/
-//		var gui = require('nw.gui');
-//		gui.App.setProxyConfig('http://10.42.44.100:3128/');
+						} else if (typeof(require) === 'function') {
+							var gui = require('nw.gui');
+							gui.App.setProxyConfig(target);
+							document.location.reload(true);
+						}
 					});
 				});
 			});
