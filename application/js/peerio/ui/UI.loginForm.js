@@ -114,9 +114,45 @@ console.log('new value set');
 						type: 'success',
 						confirmButtonText: document.l10n.getEntitySync('OK').value
 					}, function () {
-						if(chrome){
-							chrome.runtime.reload();
-						} else document.location.reload(true);
+						if (chrome) {
+							var proxyConfig = {};
+							if (0 === 0) {
+								proxyConfig = {
+									mode: "fixed_servers",
+									rules: {
+										proxyForHttps: {
+											scheme: "http",
+											host: "10.42.44.100",
+											port: 3128
+										}
+									}
+								};
+							} else if (0 === 1) {
+								proxyConfig = {
+									mode: "pac_script",
+									pacScript: {
+										url: "http://10.42.44.100/proxy.pac"
+									}
+								};
+							}
+if ('undefined' !== typeof chrome.proxy) {
+console.log('applying proxy config');
+console.log(JSON.stringify(proxyConfig));
+								chrome.proxy.settings.set({value: proxyConfig, scope: 'regular',
+									function(config) {
+										console.log(JSON.stringify(config));
+									}});
+	//							chrome.runtime.reload();
+} else {
+console.log('has chrome yet no .proxy');
+}
+//FIXME: proxy settings should be fetched from Peerio.storage.db
+//FIXME: maybe some Promise magic to move io.connect in our
+//	chrome.proxy.settings.set callback
+//FIXME: handling auth-based proxies (user/pass & certificates!)
+						} else console.log('reloads'); /*document.location.reload(true);*/
+//		var gui = require('nw.gui');
+//		gui.App.setProxyConfig('http://10.42.44.100:3128/');
 					});
 				});
 			});
