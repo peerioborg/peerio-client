@@ -4243,11 +4243,6 @@ var url = _dereq_('./url');
 var parser = _dereq_('socket.io-parser');
 var Manager = _dereq_('./manager');
 var debug = _dereq_('debug')('socket.io-client');
-var http = _dereq_('http'); //FIXME
-var https = _dereq_('https'); //FIXME
-var tunnelPort = 65342;
-var tunnelServer = false;
-var initialized = false;
 
 /**
  * Module exports.
@@ -4260,59 +4255,6 @@ module.exports = exports = lookup;
  */
 
 var cache = exports.managers = {};
-
-/**
- * Create http server diverting queries through proxy
- *
- * @api public
- */
-
-function proxyInit(proxyUrl) {
-    initialized = true;
-
-    if (typeof tunnelServer !== false) {
-	tunnelServer.close();
-	tunnelServer = false;
-    }
-    if (typeof proxyUrl === 'undefined') {
-	if (process.env.http_proxy) {
-	    proxyUrl = process.env.http_proxy;
-	} else {
-	    console.log('Direct connection (no proxy defined)');
-	return;
-	}
-    }
-    var proxy = url.parse(proxyUrl, true);
-
-    tunnelServer = http.createServer(function (request, response) {
-	var requestUrl = url.parse(request.url, true);
-	var hostname = requestUrl.query.hostname;
-	var port = requestUrl.query.port;
-	var options = {
-	    hostname: typeof proxy !== 'undefined' ? proxy.hostname : hostname,
-	    port: typeof proxy !== 'undefined' ? proxy.port : port,
-	    path: requestUrl.pathname + '?t=' + requestUrl.query.t,
-	    method: request.method,
-	    headers: request.headers
-	};
-	options['headers']['Host'] = hostname + ':' + port;
-	var proxy_request = https.request(options);
-	proxy_request.addListener('response', function (proxy_response) {
-            proxy_response.addListener('data', function (chunk) { response.write(chunk, 'binary'); });
-            proxy_response.addListener('end', function () { response.end(); });
-            response.writeHead(proxy_response.statusCode, proxy_response.headers);
-	});
-	proxy_request.on('error', function(err) {
-	    console.log('Error: found error in socket proxying - error is: ' + err);
-	    console.log(err.stack);
-	});
-
-	request.addListener('data', function (chunk) { proxy_request.write(chunk, 'binary'); });
-	request.addListener('end', function () { proxy_request.end(); });
-    });
-    tunnelServer.listen(tunnelPort);
-    console.log('Proxy: ' + proxyUrl);
-}
 
 /**
  * Looks up an existing `Manager` for multiplexing.
@@ -4355,6 +4297,7 @@ function lookup(uri, opts) {
     }
     io = cache[id];
   }
+
   return io.socket(parsed.path);
 }
 
@@ -4365,31 +4308,6 @@ function lookup(uri, opts) {
  */
 
 exports.protocol = parser.protocol;
-
-/**
- *`initialize proxy if required
- *
- * @param {String} uri
- * @api public
- */
-
-exports.proxyInit = proxyInit;
-
-/**
- * check wether proxy init is required
- *
- * @api public
- */
-
-exports.proxyDivertTo = function() { return (tunnelServer !== false ? tunnelPort : false); }
-
-/**
- * check wether proxy init is required
- *
- * @api public
- */
-
-exports.proxyInitialized = function() { return initialized; }
 
 /**
  * `connect`.

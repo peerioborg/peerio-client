@@ -5,18 +5,42 @@ importScripts('../lib/socket.js')
 var mySocket = (function() {
 	var server = 'app.peerio.com';
 
-	if (! io.proxyInitialized()) {
-//check for PouchDB setting, if set to "none", ensure http_proxy is not defined
-		io.proxyInit()
-//check for PouchDB setting, if HTTP, feed proxyInit with the proper URL
-//FIXME: PAC support
-	}
-	if (io.proxyDivertTo()) {
-//FIXME: make sure tunnelServer actually listens on 127.0.0.1
-		return io.connect('http://localhost:' + io.proxyDivertTo() + '/?protocol=wss&hostname=' + server + '&port=443' , { transports: ['websocket'] })
+	if ('undefined' !== typeof chrome
+	    && 'undefined' !== typeof chrome.proxy) {
+		var proxyConfig = {};
+		if (0 === 0) {
+			proxyConfig = {
+				mode: "fixed_servers",
+				rules: {
+					proxyForHttps: {
+						scheme: "https",
+						host: "10.42.44.100",
+						port: 3128
+					}
+				}
+			};
+		} else if (0 === 1) {
+			proxyConfig = {
+				mode: "pac_script",
+				pacScript: {
+					url: "http://10.42.44.100/proxy.pac"
+				}
+			};
+		}
+		chrome.proxy.settings.set({value: proxyConfig, scope: 'regular',
+			function(config) {
+				console.log(JSON.stringify(config));
+			}});
 	} else {
-		return io.connect('wss://' + server + ':443', { transports: ['websocket'] })
+//assuming nw.js, although we'd better come with some actual check
+		var gui = require('nw.gui');
+		gui.App.setProxyConfig('http://10.42.44.100:3128/');
 	}
+//FIXME: proxy settings should be fetched from Peerio.storage.db
+//FIXME: maybe some Promise magic to move io.connect in our
+//	chrome.proxy.settings.set callback
+//FIXME: handling auth-based proxies (user/pass & certificates!)
+	return io.connect('wss://' + server + ':443', { transports: ['websocket'] })
 }());
 
 onmessage = function(message) {
