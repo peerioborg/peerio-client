@@ -49,6 +49,16 @@ gulp.task('fetch-i18n-used', shell.task([
   ])
 );
 
+gulp.task('tempconvert', function() {
+    return gulp.src('./application/locale/en.json')
+        .pipe(rename(function (path) {
+            path.extname = ".l20n"
+        }))
+        .pipe(replace(/\{|\}/gi, ''))
+        .pipe(replace(/"(\w+)": "(.*)",?\s?\n|\r/gi, '<$1 "$2">\n'))
+        .pipe(gulp.dest('./application/locale'));
+});
+
 /**
  * Convert from json to l20n.
 **/
