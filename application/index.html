@@ -1093,8 +1093,8 @@
                           data-ng-bind="newGhost.passphrase"></span>
                 </div>
                 <form style="width: 674px">
-                    <input type="email" class="newGhostTo" data-l10n-id="email" data-ng-model="newGhost.recipient"
-                           required/>
+                    <input type="text" class="newGhostTo" data-l10n-id="email" data-ng-model="newGhost.recipient"
+                           required data-ng-change="newGhost.lintRecipient()"/>
                     <input type="text" class="newMessageSubject" data-l10n-id="subject" data-ng-model="newGhost.subject"
                            maxlength="64" required/>
                     <div style="padding: 20px 4px 0px;">

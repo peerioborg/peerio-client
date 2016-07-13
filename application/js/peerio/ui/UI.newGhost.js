@@ -9,7 +9,7 @@ Peerio.UI.controller('newGhost', function ($scope) {
 
     g.selectedLocale = null;
     g.languages = Peerio.PhraseGenerator.languages;
-    g.expiration =1;
+    g.expiration = 1;
     $scope.$on('newMessageReset', function () {
         if (g.sending) return;
         g.recipient = '';
@@ -31,6 +31,11 @@ Peerio.UI.controller('newGhost', function ($scope) {
         $('div.attachFile').removeClass('visible');
         $('div.newGhost').addClass('visible');
     });
+
+    g.lintRecipient = function () {
+        if(!g.recipient) return;
+        g.recipient = g.recipient.split(/;|\,| /).filter(item => !!item).reduce((prev, next)=>prev + '; ' + next);
+    };
 
     g.attachFile = function () {
         $('input.fileSelectDialogGhost').click();
@@ -199,7 +204,7 @@ Peerio.UI.controller('newGhost', function ($scope) {
                 files: files,
                 timestamp: Date.now(),
                 passphrase: g.passphrase,
-                lifeSpanInSeconds: (+g.expiration) * 60*60*24
+                lifeSpanInSeconds: (+g.expiration) * 60 * 60 * 24
             };
 
             Peerio.crypto.encryptMessage(ghostMsg, pk,
@@ -212,7 +217,7 @@ Peerio.UI.controller('newGhost', function ($scope) {
                         ghostID: id,
                         publicKey: pk,
                         lifeSpanInSeconds: ghostMsg.lifeSpanInSeconds,
-                        recipients: [g.recipient],
+                        recipients: g.recipient.split('; '),
                         version: '1.0.0',
                         files: ids,
                         header: header,
