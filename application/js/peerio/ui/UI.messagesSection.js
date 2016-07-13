@@ -56,6 +56,13 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
             }, 100)
         }
         $scope.messagesSidebar.newGhost = function () {
+            if (Peerio.user.paywall && Peerio.user.paywall.ghost) {
+                var pw = Peerio.user.paywall.ghost[0];
+                if (pw.usage >= pw.limit) {
+                    swal(l("error"), l('ghostOverQuota'), "error");
+                    return;
+                }
+            }
             $('div.frontModalsWrapper').addClass('visible');
             $('div.newGhost').addClass('visible');
             setTimeout(function () {
@@ -63,7 +70,7 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
             }, 100)
         };
         $scope.messagesSection = {
-            log: function(item){
+            log: function (item) {
                 console.log(item);
             }
         };
@@ -622,14 +629,14 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
             }
             return Peerio.util.getDateFromTimestamp(timestamp)
         }
-    $scope.messagesSection.getExpirationDate = function (msg) {
+        $scope.messagesSection.getExpirationDate = function (msg) {
 
-        return new Date(msg.timestamp+(msg.decrypted.lifetime||0)*1000).toString();
-    }
-    $scope.messagesSection.expired = function (timestamp, lifetime) {
+            return new Date(msg.timestamp + (msg.decrypted.lifetime || 0) * 1000).toString();
+        }
+        $scope.messagesSection.expired = function (timestamp, lifetime) {
 
-        return (timestamp+(lifetime||0)*1000)<=Date.now();
-    }
+            return (timestamp + (lifetime || 0) * 1000) <= Date.now();
+        }
         $scope.messagesSection.isExpandConversationVisible = function (id, conversation) {
             if (
                 (id === conversation.original.id) &&
@@ -677,7 +684,7 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
             return Peerio.util.getFullName(username)
         }
         $scope.messagesSection.getListingName = function (original) {
-            if(original.isGhost){
+            if (original.isGhost) {
                 return "👻 " + original.decrypted.recipient;
             }
             if (

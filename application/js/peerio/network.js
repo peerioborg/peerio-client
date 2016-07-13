@@ -91,6 +91,7 @@ Peerio.network.getSettings = function (callback) {
     Peerio.socket.emit('getSettings', {
         authToken: Peerio.user.popAuthToken()
     }, function (data) {
+        Peerio.user.paywall = data.paywall;
         if (data.settings.acceptedLatestTOS) {
             callback(data);
             return;
