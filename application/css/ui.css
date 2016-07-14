@@ -3049,9 +3049,8 @@ ul.filesSidebarTypeFilters li,ul.messagesSidebarTypeFilters li {
   width: 20px;
   height: 20px;
   background-repeat: no-repeat;
-	vertical-align: text-bottom;
-	margin: 6px 6px 0 0;
-
+	vertical-align: super;
+	margin: 0 6px 0 0;
 }
 
 .selected .ghost-dark,
@@ -3063,4 +3062,8 @@ ul.filesSidebarTypeFilters li,ul.messagesSidebarTypeFilters li {
 .ghost-dark {
   background-image: url(../img/ghost-dark.svg);
   opacity: .54;
+}
+
+.ghost-dark + div {
+	display: inline-block;
 }

@@ -530,9 +530,10 @@
                             &nbsp;</label>
 
                         <div class="senderAndSummary">
-                            <h2 data-ng-bind="messagesSection.getListingName(conversation.original)"></h2>
-
-                            <h3 data-ng-bind="conversation.original.decrypted.subject"></h3>
+                            <div>
+                              <h2 data-ng-bind="messagesSection.getListingName(conversation.original)"></h2>
+                              <h3 data-ng-bind="conversation.original.decrypted.subject"></h3>
+                            </div>
                         </div>
                         <div class="dateAndTime">
                             <strong data-ng-bind="messagesSection.getDate(conversation.lastTimestamp).date"></strong>
