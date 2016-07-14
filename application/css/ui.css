@@ -3041,3 +3041,26 @@ ul.filesSidebarTypeFilters li,ul.messagesSidebarTypeFilters li {
 	padding: 16px 16px 20px;
 	flex: 1 0 auto;
 }
+
+
+.ghost-light,
+.ghost-dark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+	vertical-align: text-bottom;
+	margin: 6px 6px 0 0;
+
+}
+
+.selected .ghost-dark,
+.ghost-light {
+  background-image: url(../img/ghost-light.svg);
+  opacity: .7;
+}
+
+.ghost-dark {
+  background-image: url(../img/ghost-dark.svg);
+  opacity: .54;
+}
