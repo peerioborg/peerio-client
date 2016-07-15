@@ -530,6 +530,7 @@
                             &nbsp;</label>
 
                         <div class="senderAndSummary">
+                            <div class="ghost-dark" data-ng-if="conversation.original.isGhost"></div>
                             <div>
                               <h2 data-ng-bind="messagesSection.getListingName(conversation.original)"></h2>
                               <h3 data-ng-bind="conversation.original.decrypted.subject"></h3>
