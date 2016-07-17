@@ -58,7 +58,7 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
         $scope.messagesSidebar.newGhost = function () {
             if (Peerio.user.paywall && Peerio.user.paywall.ghost && Peerio.user.paywall.ghost[0] !=null) {
                 var pw = Peerio.user.paywall.ghost[0];
-                if (pw.usage >= pw.limit) {
+                if (pw.limit !== null && pw.usage >= pw.limit) {
                     swal(l("error"), l('ghostOverQuota'), "error");
                     return;
                 }

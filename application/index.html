@@ -1421,13 +1421,13 @@
                 data-l10n-id="payments_canceledSubscriptions"></h2>
             <table class="plans">
                 <tr data-ng-repeat="row in preferences.getCanceledSubscriptions()">
-                    <td>{{row.id}}
+                    <td style="color:#ccc">{{row.id}}
                     </td>
-                    <td>{{row.plan_name}}
+                    <td style="color:#ccc">{{row.plan_name}}
                     </td>
-                    <td>{{row.bonus}}
+                    <td style="color:#ccc">{{(row.bonus.file.limit/1024/1024/1024).toFixed(1)+' Gb'}}
                     </td>
-                    <td>{{row.date}}
+                    <td style="color:#ccc">{{row.date}}
                     </td>
                 </tr>
             </table>
