@@ -669,7 +669,7 @@
                             <div data-ng-if="message.isGhost" style="background-color: #f0f0f0; padding:5px; user-select: initial;-webkit-user-select: initial;">
                                 {{message.decrypted.recipient}}
                                 <br>
-                                <a href="https://ghost.peerio.com?{{message.decrypted.id}}" target="_blank">https://ghost.peerio.com?{{message.decrypted.id}}</a>
+                                <a href="https://ghost.peerio.com?{{message.decrypted.id}}" style="-webkit-user-select: text;user-select: text;" target="_blank">https://ghost.peerio.com?{{message.decrypted.id}}</a>
                                 <br>
                                 <span style="color:red" data-l10n-id="ghost_expired" data-ng-if="messagesSection.expired(message.timestamp, message.decrypted.lifeSpanInSeconds)"></span>
                                 <span data-l10n-id="ghost_expires"  data-ng-if="!messagesSection.expired(message.timestamp, message.decrypted.lifeSpanInSeconds)"></span>
