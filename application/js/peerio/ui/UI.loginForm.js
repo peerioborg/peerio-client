@@ -38,12 +38,12 @@ Peerio.UI.controller('loginForm', function($scope) {
 						$scope.$root.$broadcast('messagesSectionPopulate', function() {
 							$('div.mainTopSectionTab[data-sectionLink=messages]').trigger('mousedown')
 						})
-						$scope.$root.$broadcast('filesSectionPopulate', null);
-						$('div.loginScreen').addClass('slideUp');
-						$('div.mainScreen').show();
+						$scope.$root.$broadcast('filesSectionPopulate', null)
+						$('div.loginScreen').addClass('slideUp')
+                        window.setTimeout(function(){$('.loginScreen').hide()}, 2000)
+						$('div.mainScreen').show()
 						Peerio.UI.userMenuPopulate()
-					});
-					$scope.$root.$broadcast('newMessageReset', null);
+					})
 				})
 			}
 			else {
