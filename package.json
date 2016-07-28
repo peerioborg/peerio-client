@@ -36,6 +36,7 @@
     "minimist": "latest",
     "nw-builder": "flohdot/nw-builder#master",
     "run-sequence": "latest",
-    "uglify-js": "latest"
+    "uglify-js": "latest",
+    "appdmg":"latest"
   }
 }
