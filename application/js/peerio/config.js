@@ -14,7 +14,7 @@ Peerio.config = {};
 		buildID: 24,
 		updateJSON: 'https://peerio.com/update/info.json',
 		updateWin: 'https://peerio.com/download/peerio-win.msi',
-		updateMac: 'https://peerio.com/download/peerio-mac.zip',
+		updateMac: 'https://peerio.com/download/peerio-mac.dmg',
 		updateLin: 'https://linux.peerio.com',
 		minPINEntropy: 24,
 		fileUploadSizeLimit: 419430400
