@@ -11,12 +11,7 @@ var gulp = require('gulp'),
     _ = require('lodash'),
     del = require('del'),
     NwBuilder = require('nw-builder'),
-    appdmg;
-if (require('os').platform() === 'darwin') {
-    appdmg = require('appdmg');
-} else {
-    appdmg = null;
-}
+    appdmg = (require('os').platform() === 'darwin') ? require('appdmg') : null;
 
 // settings
 var tmpSources = 'tmp/tx/*.json';
