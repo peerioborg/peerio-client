@@ -36,7 +36,9 @@
     "minimist": "latest",
     "nw-builder": "flohdot/nw-builder#master",
     "run-sequence": "latest",
-    "uglify-js": "latest",
-    "appdmg":"latest"
+    "uglify-js": "latest"
+  },
+  "optionalDependencies": {
+    "appdmg": "latest"
   }
 }

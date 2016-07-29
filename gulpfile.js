@@ -1,17 +1,22 @@
 var gulp = require('gulp'),
-shell = require('gulp-shell'),
-minimist = require('minimist'),
-fs = require('fs'),
-replace = require('gulp-replace'),
-rename = require('gulp-rename'),
-bump = require('gulp-bump'),
-zip = require('gulp-zip'),
-ignore = require('gulp-ignore'),
-runSequence = require('run-sequence'),
-_ = require('lodash'),
-del = require('del'),
-NwBuilder = require('nw-builder'),
-appdmg = require('appdmg');
+    shell = require('gulp-shell'),
+    minimist = require('minimist'),
+    fs = require('fs'),
+    replace = require('gulp-replace'),
+    rename = require('gulp-rename'),
+    bump = require('gulp-bump'),
+    zip = require('gulp-zip'),
+    ignore = require('gulp-ignore'),
+    runSequence = require('run-sequence'),
+    _ = require('lodash'),
+    del = require('del'),
+    NwBuilder = require('nw-builder'),
+    appdmg;
+if (require('os').platform() === 'darwin') {
+    appdmg = require('appdmg');
+} else {
+    appdmg = null;
+}
 
 // settings
 var tmpSources = 'tmp/tx/*.json';
