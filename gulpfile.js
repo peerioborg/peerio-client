@@ -264,7 +264,7 @@ gulp.task('pack-mac-build', function(callback){
         runSequence('update-dependendencies', 'clean-build', function() {
             nw.build()
             .then(function() {
-                runSequence('finalize-mac-build','pack-mac-build', 'build-chrome', 'finalize-win-build', callback)
+                runSequence('finalize-mac-build', 'sign', 'pack-mac-build', 'build-chrome', 'finalize-win-build', callback)
             })
             .catch(function (error) {
                 console.error(error);
