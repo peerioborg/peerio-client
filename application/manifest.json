@@ -36,5 +36,6 @@
 		"https://blob.peerio.com/*",
 		"https://blobmonster.peerio.com/*",
 		"https://blobmonsterwilleatyou.peerio.com/*"
-	]
+	],
+    "chromium-args": "--no-first-run"
 }

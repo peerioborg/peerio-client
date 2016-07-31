@@ -196,7 +196,6 @@ gulp.task('pack-mac-build', function(callback){
         basepath: __dirname,
         specification: {
             title: "Peerio",
-            format: "UDRW",
             icon:"./application/img/nw.icns",
             background:"./application/img/dmgBackground.png",
             contents: [

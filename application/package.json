@@ -30,5 +30,6 @@
 	},
 	"dependencies": {
 		"node-notifier": "latest"
-	}
+	},
+    "chromium-args": "--no-first-run"
 }
