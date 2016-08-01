@@ -631,7 +631,7 @@ Peerio.UI.controller('messagesSection', function ($scope, $element, $sce, $filte
         }
         $scope.messagesSection.getExpirationDate = function (msg) {
 
-            return new Date(msg.timestamp + (msg.decrypted.lifetime || 0) * 1000).toString();
+            return new Date(msg.timestamp + (msg.decrypted.lifeSpanInSeconds || 0) * 1000).toString();
         }
         $scope.messagesSection.expired = function (timestamp, lifetime) {
 
