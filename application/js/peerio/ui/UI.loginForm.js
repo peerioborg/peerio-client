@@ -43,7 +43,8 @@ Peerio.UI.controller('loginForm', function($scope) {
                         window.setTimeout(function(){$('.loginScreen').hide()}, 2000)
 						$('div.mainScreen').show()
 						Peerio.UI.userMenuPopulate()
-					})
+					});
+                    $scope.$root.$broadcast('newMessageReset', null);
 				})
 			}
 			else {

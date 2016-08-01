@@ -384,14 +384,14 @@ Peerio.TODOs = {};
         });
 
         //--------------------------------------------------------------------------
-        angular.element(document).ready(function () {
-            document.getElementsByClassName('todosSidebarAddTodo')[0].addEventListener('click', () => Peerio.TODOs.create());
-            document.l10n.ready(() => {
-                console.log("Starting todos render");
-                React.render(React.createElement(TodosView, null), document.getElementById('todosView'));
-            });
-
-            window.setInterval(Peerio.TODOs.saveAll, 10000);
-        });
+        // angular.element(document).ready(function () {
+        //     document.getElementsByClassName('todosSidebarAddTodo')[0].addEventListener('click', () => Peerio.TODOs.create());
+        //     document.l10n.ready(() => {
+        //         console.log("Starting todos render");
+        //         React.render(React.createElement(TodosView, null), document.getElementById('todosView'));
+        //     });
+        //
+        //     window.setInterval(Peerio.TODOs.saveAll, 10000);
+        // });
     });
 })();

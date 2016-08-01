@@ -174,7 +174,8 @@ Peerio.UI.controller('newGhost', function ($scope) {
                     $scope.$root.$broadcast('frontModalsClose', null);
                     $scope.$root.$broadcast('newMessageReset', null);
                     $scope.$apply();
-                }, function () {
+                }, function (err) {
+                    console.error(err);
                     swal({
                         title: document.l10n.getEntitySync('newGhostSendError').value,
                         text: document.l10n.getEntitySync('newGhostSendErrorText').value,

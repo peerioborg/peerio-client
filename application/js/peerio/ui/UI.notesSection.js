@@ -250,14 +250,14 @@ Peerio.Notes = {};
         });
 
         //--------------------------------------------------------------------------
-        angular.element(document).ready(function () {
-            document.getElementsByClassName('notesSidebarAddNote')[0].addEventListener('click', () => Peerio.Notes.create());
-            document.l10n.ready(() => {
-                console.log("Starting notes render");
-                React.render(React.createElement(NotesView, null), document.getElementById('notesView'));
-            });
-
-            window.setInterval(Peerio.Notes.saveAll, 10000);
-        });
+        // angular.element(document).ready(function () {
+        //     document.getElementsByClassName('notesSidebarAddNote')[0].addEventListener('click', () => Peerio.Notes.create());
+        //     document.l10n.ready(() => {
+        //         console.log("Starting notes render");
+        //         React.render(React.createElement(NotesView, null), document.getElementById('notesView'));
+        //     });
+        //
+        //     window.setInterval(Peerio.Notes.saveAll, 10000);
+        // });
     });
 })();

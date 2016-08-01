@@ -317,14 +317,14 @@ Peerio.Passwords = {};
         });
 
         //--------------------------------------------------------------------------
-        angular.element(document).ready(function () {
-            document.getElementsByClassName('passwordsSidebarAddPassword')[0].addEventListener('click', () => Peerio.Passwords.create());
-            document.l10n.ready(() => {
-                console.log("Starting passwords render");
-                React.render(React.createElement(PasswordsView, null), document.getElementById('passwordsView'));
-            });
-
-            window.setInterval(Peerio.Passwords.saveAll, 10000);
-        });
+        // angular.element(document).ready(function () {
+        //     document.getElementsByClassName('passwordsSidebarAddPassword')[0].addEventListener('click', () => Peerio.Passwords.create());
+        //     document.l10n.ready(() => {
+        //         console.log("Starting passwords render");
+        //         React.render(React.createElement(PasswordsView, null), document.getElementById('passwordsView'));
+        //     });
+        //
+        //     window.setInterval(Peerio.Passwords.saveAll, 10000);
+        // });
     });
 })();
