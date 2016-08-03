@@ -164,7 +164,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 +	platforms: ['linux32','linux64'],
 +	buildDir: buildDest,
 +	appName: 'Peerio',
-+	version: '0.14.4',
++	version: '0.15.4',
 +	cacheDir: 'tmp/nw'
      });
  
